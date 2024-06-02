@@ -19,7 +19,7 @@ class Generate extends BaseController
 
     public function index(): string
     {
-        $certificate = $this->certificateModel->findAll();
+        $certificate = $this->certificateModel->where('user_id', session('id'))->findAll();
         $decrypted_data = [];
 
         foreach ($certificate as $item) {
@@ -29,7 +29,7 @@ class Generate extends BaseController
             $decrypted_name_certificate = $this->encrypter->decrypt(base64_decode($item['name_certificate']));
             $decrypted_url = $this->encrypter->decrypt(base64_decode($item['certificate_png']));
 
-            // Menambahkan data yang telah didekripsi ke dalam array
+            // Menambahkan data yang telah di dekripsi ke dalam array
             $decrypted_data[] = [
                 'id' => $item['id'],
                 'name_certificate' => $decrypted_name_certificate,
@@ -95,7 +95,8 @@ class Generate extends BaseController
             'full_name' => $encrypt_fullname,
             'events' => $encrypt_events,
             'name_of_signatory' => $encrypt_signatory,
-            'certificate_png' => $encrypt_url
+            'certificate_png' => $encrypt_url,
+            'user_id' => intval(session('id'))
         ]);
 
         //memanggil fungsi generate() untuk proses menyisipkan text nama pada sertifikat
@@ -106,7 +107,7 @@ class Generate extends BaseController
             $output,
             $this->request->getFile('signature')
         );
-
+        session()->setFlashdata('success', 'Successfully Created a Certificate');
         return redirect()->to('/mydashboard');
     }
 
@@ -205,16 +206,12 @@ class Generate extends BaseController
     public function delete($id)
     {
         $this->certificateModel->delete($id);
+        session()->setFlashdata('success', 'Certificate Deleted');
         return redirect()->to('/mydashboard');
     }
 
     public function viewGenerate(): string
     {
         return view('generateCertificate/generate_certificate');
-    }
-
-    public function viewTutorial(): string
-    {
-        return view('generateCertificate/tutorial');
     }
 }

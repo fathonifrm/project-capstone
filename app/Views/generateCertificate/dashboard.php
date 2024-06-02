@@ -3,6 +3,12 @@
 <?= $this->section('content') ?>
 
 <section>
+    <?php if (session()->getFlashdata('success')) : ?>
+        <div class="alert alert-success" role="alert">
+            <?= session()->get('success'); ?>
+        </div>
+    <?php endif; ?>
+    <!-- <?php var_dump(session('name')) ?> -->
     <main>
         <div class="card">
             <a href="<?= base_url('generate'); ?>">

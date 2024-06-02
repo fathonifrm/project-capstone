@@ -17,7 +17,7 @@
             <a href="#">Home</a>
             <a href="#">Create</a>
             <a href="#">Tutorial</a>
-            <a href="#" class="btn-sign-up">Sign In</a>
+            <a href="<?= base_url('/login'); ?>" class="btn-sign-up">Sign In</a>
         </div>
     </header>
 

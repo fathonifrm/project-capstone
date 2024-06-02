@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="<?= base_url('assets/css/dashboard.css'); ?>">
     <link rel="stylesheet" type="text/css" href="../assets/css/generatesertifikat.css">
 
-
-
 </head>
 
 <body id="page-top">

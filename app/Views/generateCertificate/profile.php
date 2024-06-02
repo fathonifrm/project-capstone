@@ -2,6 +2,6 @@
 
 <?= $this->section('content') ?>
 
-<h1>INI HALAMAN TUTORIAL</h1>
+<h1>INI HALAMAN PROFILE</h1>
 
 <?= $this->endSection() ?>

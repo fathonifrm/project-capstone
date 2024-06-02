@@ -34,6 +34,7 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        'authFilter'    => \App\Filters\AuthFilter::class,
     ];
 
     /**
@@ -51,10 +52,12 @@ class Filters extends BaseFilters
      */
     public array $required = [
         'before' => [
+            // 'authfilter' => ['except' => ['/', '/login', '/register']],
             'forcehttps', // Force Global Secure Requests
             'pagecache',  // Web Page Caching
         ],
         'after' => [
+            // 'authfilter' => ['except' => ['/', '/mydashboard', '/certificate/*', '/generate', 'certificate/download/*', '/tutorial']],
             'pagecache',   // Web Page Caching
             'performance', // Performance Metrics
             'toolbar',     // Debug Toolbar

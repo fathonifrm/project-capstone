@@ -35,7 +35,7 @@
 
     <!-- Nav Item - My Profile -->
     <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('user/index'); ?>">
+        <a class="nav-link" href="<?= base_url('profile'); ?>">
             <i class="fas fa-fw fa-regular fa-user"></i>
             <span>My Profile</span>
         </a>
