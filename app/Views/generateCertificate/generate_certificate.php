@@ -6,7 +6,7 @@
     <h1 class="title">Generate Sertifikat</h1>
     <main>
         <!-- Tampilkan pesan sukses jika ada -->
-        <form id="form" action="/generate/save" method="POST" enctype="multipart/form-data">
+        <form id="form" action="<?= base_url('/generate/save') ?>" method="POST" enctype="multipart/form-data">
             <?= csrf_field(); ?>
             <div class="user-info">
                 <div class="input-box">
