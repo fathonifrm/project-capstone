@@ -8,11 +8,6 @@ class Home extends BaseController
     {
         return view('landing_page');
     }
-    
-    public function viewTutorial(): string
-    {
-        return view('generateCertificate/tutorial');
-    }
 
     public function viewProfile(): string
     {

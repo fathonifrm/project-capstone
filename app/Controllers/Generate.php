@@ -17,7 +17,7 @@ class Generate extends BaseController
         $this->encrypter = \Config\Services::encrypter();
     }
 
-    public function index(): string
+    public function index()
     {
         $certificate = $this->certificateModel->where('user_id', session('id'))->findAll();
         $decrypted_data = [];
@@ -44,7 +44,13 @@ class Generate extends BaseController
             'certificate' => $decrypted_data
         ];
 
-        return view('generateCertificate/dashboard', $data);
+        if (session()->get('email') == NULL) {
+            // Jika belum login, redirect ke halaman login
+            return redirect()->to('/login');
+        }
+
+        // Jika sudah login, tampilkan halaman dashboard
+        return view('/generateCertificate/dashboard', $data);
     }
 
     public function detail($id)
@@ -70,6 +76,12 @@ class Generate extends BaseController
         $data = [
             'certificate' => $decrypted_data
         ];
+
+        if (session()->get('email') == NULL) {
+            // Jika belum login, redirect ke halaman login
+            return redirect()->to('/login');
+        }
+
         return view('generateCertificate/detail', $data);
     }
 
@@ -138,6 +150,8 @@ class Generate extends BaseController
         $text_events = $events;
         $text_signatory = $nameofsignatory;
         $text_date = date('d/m/Y');
+        $text_serial_number = date('Y') . "/" . rand(32, 999) - date('d') . "/" . rand(1, 999);
+        // dd($text_serial_number);
 
         //fungsi untuk memberikan kotak batas text return nya berupa array
         //TEXT NAME
@@ -152,7 +166,7 @@ class Generate extends BaseController
         $text_box = imagettfbbox($font_size_events, $rotation, $drFont, $text_signatory);
         $text_width_signatory = $text_box[2] - $text_box[0];
         $text_height_signatory = $text_box[1] - $text_box[7];
-
+        //PICUTRE SIGNATURE
         $signature_width = imagesx($createsignature);
         $signature_height = imagesy($createsignature);
 
@@ -166,12 +180,15 @@ class Generate extends BaseController
         //TEXT SIGNATORY
         $origin_x_signatory = ($image_width - $text_width_signatory) / 2;
         $origin_y_signatory = $image_height - $text_height_signatory - 210;
-
-        $signature_x = ($image_width - $signature_width) / 2;
-        $signature_y = $image_height - $signature_height - 180;
+        //PICTURE SIGNATOR
+        $origin_x_signature = ($image_width - $signature_width) / 2;
+        $origin_y_signature = $image_height - $signature_height - 180;
         //TEXT DATE
         $origin_x_date = 40;
         $origin_y_date = 100;
+        //TEXT SEIAL NUMBER
+        $origin_x_serial_number = 40;
+        $origin_y_serial_number = 210;
 
         //function untuk menempatkan text  di sertifikat 
         //TEXT NAME
@@ -180,10 +197,13 @@ class Generate extends BaseController
         imagettftext($createimage, $font_size_events, $rotation, $origin_x_events, $origin_y_events, $color, $drFont, $text_events);
         //TEXT SIGNATORY
         imagettftext($createimage, $font_size_events, $rotation, $origin_x_signatory, $origin_y_signatory, $color, $drFont, $text_signatory);
-
-        imagecopy($createimage, $createsignature, $signature_x, $signature_y, 0, 0, $signature_width, $signature_height);
+        //PICTURE SIGNATURE
+        imagecopy($createimage, $createsignature, $origin_x_signature, $origin_y_signature, 0, 0, $signature_width, $signature_height);
         //TEXT DATE
         imagettftext($createimage, $font_size_events, $rotation, $origin_x_date, $origin_y_date, $color, $drFont, $text_date);
+        //TEXT SERIAL NUMBER
+        imagettftext($createimage, $font_size_events, $rotation, $origin_x_serial_number, $origin_y_serial_number, $color, $drFont, $text_serial_number);
+
 
         //membuat image sertifikat yang sudah ada text namanya dengan format png dan simpan sesuai dengan value variabel output
         imagepng($createimage, $output, 3);
@@ -210,8 +230,12 @@ class Generate extends BaseController
         return redirect()->to('/mydashboard');
     }
 
-    public function viewGenerate(): string
+    public function viewGenerate()
     {
+        if (session()->get('email') == NULL) {
+            // Jika belum login, redirect ke halaman login
+            return redirect()->to('/login');
+        }
         return view('generateCertificate/generate_certificate');
     }
 }

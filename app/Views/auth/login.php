@@ -26,32 +26,31 @@
 <body>
     <br><br><br>
     <div class="container">
-        <!-- Outer Row -->
         <div class="row justify-content-center">
             <div class="col-lg-7">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <div class="card-body p-0">
-                        <!-- Nested Row within Card Body -->
                         <div class="row">
                             <div class="col-lg">
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h2 style="color: #0c1c62; font-weight: bold;">Certificate Generator</h2><br>
                                     </div>
-                                    <?php if (session()->getFlashdata('success')) : ?>
-                                        <div class="alert alert-success" role="alert">
+                                    <?php if (session()->getFlashdata('errors')) : ?>
+                                        <div class="alert alert-danger">
+                                            <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                                                <p><?= $error ?></p>
+                                            <?php endforeach ?>
+                                        </div>
+                                    <?php elseif (session()->getFlashdata('success')) : ?>
+                                        <div class="alert alert-success">
                                             <?= session()->get('success'); ?>
                                         </div>
-                                    <?php elseif (session()->getFlashdata('pesan')) : ?>
-                                        <div class="alert alert-danger" role="alert">
-                                            <?= session()->get('pesan'); ?>
-                                        </div>
-                                    <?php endif; ?>
-                                    <!-- <?php var_dump(session('name')) ?> -->
-                                    <form class="user" method="POST" action="<?= base_url('auth/login'); ?>" enctype="multipart/form-data">
+                                    <?php endif ?>
+                                    <form class="user" method="POST" action="<?= base_url('auth/login'); ?>">
                                         <?= csrf_field(); ?>
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="email" name="email" placeholder="Enter Email Address..." required>
+                                            <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Enter Email Address..." required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password" required>
@@ -61,9 +60,6 @@
                                         </button>
                                     </form>
                                     <hr>
-                                    <!-- <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                    </div> -->
                                     <div class="text-center">
                                         <a class="small" href="<?= base_url('/register'); ?>">Don't have an account? Sign Up</a>
                                     </div>
@@ -84,12 +80,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
-    <script>
-        // Tunggu 3 detik, lalu sembunyikan notifikasi
-        setTimeout(function() {
-            document.getElementById('notification').style.display = 'none';
-        }, 3000); // 3000 milidetik = 3 detik
-    </script>
 
 </body>
 

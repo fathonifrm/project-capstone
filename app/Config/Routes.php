@@ -6,7 +6,6 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
-$routes->get('/tutorial', 'Home::viewTutorial');
 $routes->get('/profile', 'Home::viewProfile');
 $routes->get('/mydashboard', 'Generate::index');
 $routes->get('/certificate/(:num)', 'Generate::detail/$1');

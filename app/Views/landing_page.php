@@ -12,11 +12,10 @@
 
 <body>
     <header class="">
-        <img src="path/to/your/logo.png" alt="Logo">
+        <img src="<?= base_url('assets/img/logo.png'); ?>" alt="Logo" style="width: 50px; height: 50px">
         <div class="right-buttons">
-            <a href="#">Home</a>
-            <a href="#">Create</a>
-            <a href="#">Tutorial</a>
+            <a href="<?= base_url('/mydashboard'); ?>">Home</a>
+            <a href="<?= base_url('/generate'); ?>">Create</a>
             <a href="<?= base_url('/login'); ?>" class="btn-sign-up">Sign In</a>
         </div>
     </header>
@@ -29,8 +28,7 @@
                 Our innovative platform empowers you to streamline certificate creation, distribution, and verification processes like never before.
             </p>
             <div class="button-container">
-                <button type="button" class="btn-buat-sertifikat">Buat Sertifikat</button>
-                <button type="button" class="btn-pilih-template">Pilih Template</button>
+                <a href="<?= base_url('/generate'); ?>" style="text-decoration: none" class="btn-buat-sertifikat">Create Certificate</a>
             </div>
 
         </div>

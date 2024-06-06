@@ -23,17 +23,22 @@
 <body>
     <br><br><br>
     <div class="container">
-
         <div class="card o-hidden border-0 shadow-lg my-5 col-lg-7 mx-auto">
             <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
                 <div class="row">
                     <div class="col-lg">
                         <div class="p-5">
                             <div class="text-center">
                                 <h2 style="color: #0c1c62; font-weight: bold;">Create An Account!</h2><br>
                             </div>
-                            <form class="user" method="POST" action="<?= base_url('auth/register'); ?>" enctype="multipart/form-data">
+                            <?php if (session()->getFlashdata('errors')) : ?>
+                                <div class="alert alert-danger">
+                                    <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                                        <p><?= $error ?></p>
+                                    <?php endforeach ?>
+                                </div>
+                            <?php endif ?>
+                            <form class="user" method="POST" action="<?= base_url('auth/register'); ?>">
                                 <?= csrf_field(); ?>
                                 <div class="form-group">
                                     <input type="text" class="form-control form-control-user" id="name" name="name" placeholder="Full Name" required>
@@ -46,7 +51,7 @@
                                         <input type="password" class="form-control form-control-user" id="password1" name="password" placeholder="Password" required>
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user" id="password2" name="password2" placeholder="Repeat Password" required>
+                                        <input type="password" class="form-control form-control-user" id="repeat_password" name="repeat_password" placeholder="Repeat Password" required>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -73,13 +78,6 @@
 
     <!-- Custom scripts for all pages-->
     <script src="<?= base_url('assets/'); ?>js/sb-admin-2.min.js"></script>
-    <script>
-        // Tunggu 3 detik, lalu sembunyikan notifikasi
-        setTimeout(function() {
-            document.getElementById('notification').style.display = 'none';
-        }, 3000); // 3000 milidetik = 3 detik
-    </script>
-
 </body>
 
 </html>
