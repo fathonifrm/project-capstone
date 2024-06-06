@@ -133,6 +133,7 @@ section button:hover {
 .btn-sign-up:hover {
     background-color: #224abe; /* Ubah warna latar belakang saat tombol dihover */
     color: #000 !important; /* Ubah warna teks menjadi hitam saat tombol dihover */
+    padding: 10px 20px;
 }
 
 

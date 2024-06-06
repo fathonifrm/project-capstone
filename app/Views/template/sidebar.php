@@ -34,20 +34,12 @@
     </li>
 
     <!-- Nav Item - My Profile -->
-    <li class="nav-item">
+    <!-- <li class="nav-item">
         <a class="nav-link" href="<?= base_url('profile'); ?>">
             <i class="fas fa-fw fa-regular fa-user"></i>
             <span>My Profile</span>
         </a>
-    </li>
-
-    <!-- Nav Item - Tutorial -->
-    <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('tutorial'); ?>">
-            <i class="fas fa-fw fa-solid fa-question"></i>
-            <span>Tutorial</span>
-        </a>
-    </li>
+    </li> -->
 
     <!-- Divider -->
     <hr class="sidebar-divider">
