@@ -42,6 +42,10 @@
                                                 <p><?= $error ?></p>
                                             <?php endforeach ?>
                                         </div>
+                                    <?php elseif (session()->getFlashdata('errors_login')) : ?>
+                                        <div class="alert alert-danger">
+                                            <?= session()->get('errors_login'); ?>
+                                        </div>
                                     <?php elseif (session()->getFlashdata('success')) : ?>
                                         <div class="alert alert-success">
                                             <?= session()->get('success'); ?>

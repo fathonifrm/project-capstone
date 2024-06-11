@@ -91,7 +91,8 @@ class Generate extends BaseController
         $events = $this->request->getVar('events');
         $signatory = $this->request->getVar('nameofsignatory');
         $name_certificate = url_title($fullname, '-', true) . '_' . url_title($events, '-', true);
-
+        $serial_number = date('Y') . "/" . rand(32, 999) - date('d') . "/" . rand(1, 999);
+        
         $directory = FCPATH;
         $url = "assets/img/certificate/" . $name_certificate . rand(pow(10, 2), pow(10, 3) - 1) . ".png";
         $output = $directory . $url;
@@ -103,6 +104,7 @@ class Generate extends BaseController
         $encrypt_url = base64_encode($this->encrypter->encrypt($url));
 
         $this->certificateModel->save([
+            'serial_number' => $serial_number,
             'name_certificate' => $encrypt_name_certificate,
             'full_name' => $encrypt_fullname,
             'events' => $encrypt_events,
@@ -117,18 +119,17 @@ class Generate extends BaseController
             $this->request->getVar('events'),
             $this->request->getVar('nameofsignatory'),
             $output,
-            $this->request->getFile('signature')
+            $this->request->getFile('signature'),
+            $serial_number,
         );
         session()->setFlashdata('success', 'Successfully Created a Certificate');
         return redirect()->to('/mydashboard');
     }
 
-    public function generate($fullname, $events, $nameofsignatory, $output, $signature)
+    public function generate($fullname, $events, $nameofsignatory, $output, $signature, $serial_number)
     {
         //direktori file hasil generate dan template sertifikat 
         $image = FCPATH . "assets/img/template_certificate/1.png";
-        $signature = $signature;
-        // $signature = FCPATH . "assets/img/template_certificate/TTD.png";
 
         //fungsi php untuk membuat image baru dari file png
         $createimage = imagecreatefrompng($image);
@@ -150,8 +151,7 @@ class Generate extends BaseController
         $text_events = $events;
         $text_signatory = $nameofsignatory;
         $text_date = date('d/m/Y');
-        $text_serial_number = date('Y') . "/" . rand(32, 999) - date('d') . "/" . rand(1, 999);
-        // dd($text_serial_number);
+        $text_serial_number = $serial_number;
 
         //fungsi untuk memberikan kotak batas text return nya berupa array
         //TEXT NAME

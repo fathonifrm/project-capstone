@@ -68,18 +68,17 @@ class Auth extends BaseController
             session()->setFlashdata('errors', $this->validator->getErrors());
             return redirect()->to('/login')->withInput();
         }
-
         $model = new AuthModel();
         // Menggunakan htmlspecialchars untuk mencegah XSS
         $email = htmlspecialchars($this->request->getVar('email'), ENT_QUOTES, 'UTF-8');
         $password = $this->request->getVar('password');
-
+        
         $row = $model->get_data_login($email);
         // Jika email tidak ditemukan atau password salah, kembali ke halaman login dengan pesan error
-        if ($row === NULL || !password_verify($password, $row['password'])) {
-            session()->setFlashdata('pesan', 'Login Failed');
+        if (!password_verify($password, $row['password'])) {
+            session()->setFlashdata('errors_login', 'Login Failed');
             return redirect()->to('/login');
-        }
+            }
 
         // Jika login berhasil, set data session
         $data = [
