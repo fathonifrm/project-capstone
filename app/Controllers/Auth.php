@@ -75,7 +75,7 @@ class Auth extends BaseController
         
         $row = $model->get_data_login($email);
         // Jika email tidak ditemukan atau password salah, kembali ke halaman login dengan pesan error
-        if (!password_verify($password, $row['password'])) {
+        if (!$row || !isset($row['password']) || !password_verify($password, $row['password'])) {
             session()->setFlashdata('errors_login', 'Login Failed');
             return redirect()->to('/login');
             }

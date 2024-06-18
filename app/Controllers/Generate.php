@@ -87,12 +87,30 @@ class Generate extends BaseController
 
     public function save()
     {
+        $rules = [
+            'fullname' => 'required',
+            'events' => 'required',
+            'nameofsignatory' => 'required',
+            'signature' => [
+                'rules' => 'uploaded[signature]|mime_in[signature,image/png]|max_size[signature,2048]',
+                'errors' => [
+                    'mime_in' => 'The signature file must be in PNG format.',
+                    'max_size' => 'The signature file size cannot exceed 2MB.'
+                ]
+            ]
+        ];
+
+        if (!$this->validate($rules)) {
+            session()->setFlashdata('errors', $this->validator->getErrors());
+            return redirect()->back()->withInput();
+        }
+
         $fullname = $this->request->getVar('fullname');
         $events = $this->request->getVar('events');
         $signatory = $this->request->getVar('nameofsignatory');
         $name_certificate = url_title($fullname, '-', true) . '_' . url_title($events, '-', true);
         $serial_number = date('Y') . "/" . rand(32, 999) - date('d') . "/" . rand(1, 999);
-        
+
         $directory = FCPATH;
         $url = "assets/img/certificate/" . $name_certificate . rand(pow(10, 2), pow(10, 3) - 1) . ".png";
         $output = $directory . $url;
