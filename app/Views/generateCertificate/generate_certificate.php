@@ -4,8 +4,14 @@
 <!-- Form -->
 <section>
     <h1 class="title">Generate Sertifikat</h1>
+    <?php if (session()->getFlashdata('errors')) : ?>
+        <div class="alert alert-danger">
+            <?php foreach (session()->getFlashdata('errors') as $error) : ?>
+                <p><?= $error ?></p>
+            <?php endforeach ?>
+        </div>
+    <?php endif ?>
     <main>
-        <!-- Tampilkan pesan sukses jika ada -->
         <form id="form" action="<?= base_url('/generate/save') ?>" method="POST" enctype="multipart/form-data">
             <?= csrf_field(); ?>
             <div class="user-info">
@@ -23,7 +29,7 @@
                 </div>
                 <div class="input-box">
                     <label for="signature">Signature</label>
-                    <input type="file" id="signature" placeholder="Signature" name="signature" required>
+                    <input type="file" id="signature" placeholder="Signature" name="signature" accept="image/png" required>
                 </div>
             </div>
             <!-- Tombol Submit -->
